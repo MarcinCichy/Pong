@@ -37,8 +37,7 @@ screen.title("Pong")
 first_message = message_decode(data)
 opponent_paddle_pos = first_message.get("other_paddle_pos")
 opponent_paddle = Paddle(opponent_paddle_pos)
-# This strange construction will always display your paddle at the correct position
-your_paddle = Paddle((-opponent_paddle_pos[0], opponent_paddle_pos[1]))
+your_paddle = Paddle((350, 0))  # Changed to constant start position
 screen.update()
 
 while connection_up:
@@ -49,14 +48,15 @@ while connection_up:
 # Example data structure we want to receive from the server:
 # {"connection": "up/down",
 #  "ball_pos": (x, y) /tuple/,
-#  "other_paddle_pos": (x, y) /tuple/,
+#  "left_paddle": (x, y) /tuple/,
 #  "score": (x, y) /left, right/}
 
     incoming = message_decode(data)
-    opponent_paddle_pos = incoming.get("other_paddle_pos")
+    opponent_paddle_pos = incoming.get("left_paddle")
     ball_pos = incoming.get("ball_pos")
     connection = incoming.get("connection")
     ball = Ball(ball_pos)
+    screen.listen()
     screen.onkey(your_paddle.go_up, "Up")
     screen.onkey(your_paddle.go_down, "Down")
     screen.update()

@@ -7,6 +7,7 @@ from paddle import Paddle
 from scoreboard import Scoreboard
 from ball import Ball
 
+
 # ---------------------------------------------------------------------------------------------
 HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
 PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
@@ -24,14 +25,14 @@ PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
 #             conn.sendall(data)
 
 
-def start_server():
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((HOST, PORT))
-    s.listen()
-    conn, addr = s.accept()
-    print(f"Connected by {addr}")
-    data = conn.recv(2048)
-    conn.sendall(data)
+# def start_server():
+# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# s.bind((HOST, PORT))
+# s.listen()
+# conn, addr = s.accept()
+# print(f"Connected by {addr}")
+# data = conn.recv(2048)
+# conn.sendall(data)
 
 
 # data_to_client = {"dane": "cos tam wysyla"}  # that should be JSON with data for client
@@ -70,9 +71,16 @@ screen.onkey(l_paddle.go_up, "w")
 screen.onkey(l_paddle.go_down, "s")
 
 
-
 while True:
-    start_server()
+    
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((HOST, PORT))
+    s.listen()
+    conn, addr = s.accept()
+    print(f"Connected by {addr}")
+    data = conn.recv(2048)
+    conn.sendall(data)
+    
     screen.update()
     ball.move()
     time.sleep(0.01)
@@ -105,3 +113,10 @@ while True:
 screen.exitonclick()
 
 
+# def start_all():
+#
+#     start_server()
+#     star_game()
+#
+#
+# start_all()
